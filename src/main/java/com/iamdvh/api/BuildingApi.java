@@ -2,19 +2,21 @@ package com.iamdvh.api;
 
 import java.util.List;
 
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.iamdvh.bean.BuildingBean;
 
-@Controller
+@RestController
 public class BuildingApi {
-	@RequestMapping(value = "/api/building", method = RequestMethod.GET)
+	@GetMapping("/api/building")
 	public @ResponseBody List<BuildingBean> getBuilding(@RequestParam(value = "name", required = false) String name,
 			@RequestParam(value = "numberofbasement", required = false) String numberofbasement,
 			@RequestParam(value = "types", required = false) String[] types) {
@@ -24,22 +26,22 @@ public class BuildingApi {
 		return null;
 	}
 
-	@RequestMapping(value = "/api/building/{buildingId}/{testId}", method = RequestMethod.GET)
+	@GetMapping("/api/building/{buildingId}")
 	public @ResponseBody List<BuildingBean> getDetail(@PathVariable String buildingId) {
 		return null;
 	}
 
-	@RequestMapping(value = "/api/building", method = RequestMethod.POST)
+	@PostMapping("/api/building")
 	public @ResponseBody List<BuildingBean> createBuilding(@RequestBody BuildingBean request) {
 		return null;
 	}
 
-	@RequestMapping(value = "/api/building", method = RequestMethod.PUT)
+	@PutMapping("/api/building")
 	public @ResponseBody List<BuildingBean> updateBuilding(@RequestBody BuildingBean request) {
 		return null;
 	}
 
-	@RequestMapping(value = "/api/building", method = RequestMethod.DELETE)
+	@DeleteMapping("/api/building")
 	public void deleteBuilding(@RequestBody Long[] ids) {
 		System.out.println(ids.toString());
 	}
