@@ -1,5 +1,6 @@
 package com.iamdvh.api;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -8,41 +9,74 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.iamdvh.bean.AssignmentBuildingBean;
 import com.iamdvh.bean.BuildingBean;
+import com.iamdvh.bean.ErrorResponseBean;
 
 @RestController
+@RequestMapping("/api/building")
 public class BuildingApi {
-	@GetMapping("/api/building")
+	@GetMapping
 	public @ResponseBody List<BuildingBean> getBuilding(@RequestParam(value = "name", required = false) String name,
 			@RequestParam(value = "numberofbasement", required = false) String numberofbasement,
 			@RequestParam(value = "types", required = false) String[] types) {
-		System.out.println("name: " + name);
-		System.out.println("numberofbasement" + numberofbasement);
-		System.out.println("types: " + types);
-		return null;
+		List<BuildingBean> result = new ArrayList<BuildingBean>();
+		return result;
 	}
 
-	@GetMapping("/api/building/{buildingId}")
+	@GetMapping("/{buildingId}")
 	public @ResponseBody List<BuildingBean> getDetail(@PathVariable String buildingId) {
 		return null;
 	}
 
-	@PostMapping("/api/building")
-	public @ResponseBody List<BuildingBean> createBuilding(@RequestBody BuildingBean request) {
-		return null;
+//	@PostMapping("/api/building")
+//	public @ResponseBody List<BuildingBean> createBuilding(@RequestBody BuildingBean request) {
+//		System.out.println(10/0);
+//		return null;
+//	}
+	
+	@PostMapping
+	public Object createBuilding(@RequestBody BuildingBean newBuilding) {
+		try {
+			System.out.println(10/0);
+			return newBuilding;
+		} catch (Exception e) {
+			ErrorResponseBean errorResponseBean = new ErrorResponseBean();
+			errorResponseBean.setError(e.getMessage());
+			List<String> details = new ArrayList<>();
+			details.add("Anh gì ơi, thế quái nào mà 1 số có thể chia cho 0 được nhỉ.");
+			errorResponseBean.setDetails(details);
+			return errorResponseBean;
+		}
+
 	}
 
-	@PutMapping("/api/building")
-	public @ResponseBody List<BuildingBean> updateBuilding(@RequestBody BuildingBean request) {
-		return null;
+	@PutMapping
+	public Object updateBuilding(@RequestBody BuildingBean updateBuilding) {
+		try {
+			System.out.println(10/0);
+			return updateBuilding;
+		} catch (Exception e) {
+			ErrorResponseBean errorResponseBean = new ErrorResponseBean();
+			errorResponseBean.setError(e.getMessage());
+			List<String> details = new ArrayList<>();	
+			errorResponseBean.setDetails(details);
+			return errorResponseBean;
+		}
 	}
 
-	@DeleteMapping("/api/building")
+	@DeleteMapping
 	public void deleteBuilding(@RequestBody Long[] ids) {
 		System.out.println(ids.toString());
+	}
+	
+	@PostMapping("/assignment")
+	public void assignmentBuilding(@RequestBody AssignmentBuildingBean assignmentBuildingBean) {
+		
 	}
 }
