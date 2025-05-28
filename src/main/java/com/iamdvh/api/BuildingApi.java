@@ -73,7 +73,7 @@ public class BuildingApi {
 	@DeleteMapping
 	public void deleteBuilding(@RequestBody Long[] ids) {
 		System.out.println(ids.toString());
-	}
+	}	
 	
 	@PostMapping("/assignment")
 	public void assignmentBuilding(@RequestBody AssignmentBuildingBean assignmentBuildingBean) {
