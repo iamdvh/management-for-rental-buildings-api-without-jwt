@@ -3,6 +3,7 @@ package com.iamdvh.bean;
 public class BuildingBean {
 	private String name;
 	private Integer floorArea;
+	private Integer numberOfBasement;
 	public String getName() {
 		return name;
 	}
@@ -15,4 +16,11 @@ public class BuildingBean {
 	public void setFloorArea(Integer floorArea) {
 		this.floorArea = floorArea;
 	}
+	public Integer getNumberOfBasement() {
+		return numberOfBasement;
+	}
+	public void setNumberOfBasement(Integer numberOfBasement) {
+		this.numberOfBasement = numberOfBasement;
+	}
+	
 }

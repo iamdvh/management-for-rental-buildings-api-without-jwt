@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.iamdvh.bean.AssignmentBuildingBean;
 import com.iamdvh.bean.BuildingBean;
 import com.iamdvh.bean.ErrorResponseBean;
+import com.iamdvh.exception.FieldRequiredException;
 
 @RestController
 @RequestMapping("/api/building")
@@ -42,32 +43,25 @@ public class BuildingApi {
 	
 	@PostMapping
 	public Object createBuilding(@RequestBody BuildingBean newBuilding) {
-		try {
-			System.out.println(10/0);
-			return newBuilding;
-		} catch (Exception e) {
-			ErrorResponseBean errorResponseBean = new ErrorResponseBean();
-			errorResponseBean.setError(e.getMessage());
-			List<String> details = new ArrayList<>();
-			details.add("Anh gì ơi, thế quái nào mà 1 số có thể chia cho 0 được nhỉ.");
-			errorResponseBean.setDetails(details);
-			return errorResponseBean;
-		}
-
+//		try {
+//			System.out.println(10/0);
+//			return newBuilding;
+//		} catch (Exception e) {
+//			ErrorResponseBean errorResponseBean = new ErrorResponseBean();
+//			errorResponseBean.setError(e.getMessage());
+//			List<String> details = new ArrayList<>();
+//			details.add("Anh gì ơi, thế quái nào mà 1 số có thể chia cho 0 được nhỉ.");
+//			errorResponseBean.setDetails(details);
+//			return errorResponseBean;
+//		}
+		System.out.println(10/0);
+		return newBuilding;
 	}
 
 	@PutMapping
 	public Object updateBuilding(@RequestBody BuildingBean updateBuilding) {
-		try {
-			System.out.println(10/0);
-			return updateBuilding;
-		} catch (Exception e) {
-			ErrorResponseBean errorResponseBean = new ErrorResponseBean();
-			errorResponseBean.setError(e.getMessage());
-			List<String> details = new ArrayList<>();	
-			errorResponseBean.setDetails(details);
-			return errorResponseBean;
-		}
+		validateData(updateBuilding);
+		return updateBuilding;
 	}
 
 	@DeleteMapping
@@ -78,5 +72,14 @@ public class BuildingApi {
 	@PostMapping("/assignment")
 	public void assignmentBuilding(@RequestBody AssignmentBuildingBean assignmentBuildingBean) {
 		
+	}
+	
+	private void validateData(BuildingBean building){
+		if(building.getName() == null 
+				|| !building.getName().isEmpty() 
+				|| building.getFloorArea() == null 
+				|| building.getNumberOfBasement() == null) {
+			throw new FieldRequiredException("Fields are required");
+		}
 	}
 }
