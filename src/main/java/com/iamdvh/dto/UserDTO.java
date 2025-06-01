@@ -1,6 +1,6 @@
-package com.iamdvh.bean;
+package com.iamdvh.dto;
 
-public class UserBean {
+public class UserDTO {
 	private Long id;
 	private String fullName;
 	public Long getId() {

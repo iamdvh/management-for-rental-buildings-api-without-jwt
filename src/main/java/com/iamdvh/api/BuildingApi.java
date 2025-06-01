@@ -1,8 +1,8 @@
 package com.iamdvh.api;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,24 +14,28 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.iamdvh.bean.AssignmentBuildingBean;
-import com.iamdvh.bean.BuildingBean;
-import com.iamdvh.bean.ErrorResponseBean;
+import com.iamdvh.dto.BuildingDTO;
+import com.iamdvh.dto.request.BuildingAssignmentRequest;
+import com.iamdvh.dto.response.BuildingSearchResponse;
 import com.iamdvh.exception.FieldRequiredException;
+import com.iamdvh.service.BuildingService;
 
 @RestController
 @RequestMapping("/api/building")
 public class BuildingApi {
+	@Autowired
+	private BuildingService buildingService;
+
 	@GetMapping
-	public @ResponseBody List<BuildingBean> getBuilding(@RequestParam(value = "name", required = false) String name,
+	public @ResponseBody List<BuildingSearchResponse> findAll(@RequestParam(value = "name", required = false) String name,
 			@RequestParam(value = "numberofbasement", required = false) String numberofbasement,
 			@RequestParam(value = "types", required = false) String[] types) {
-		List<BuildingBean> result = new ArrayList<BuildingBean>();
+		List<BuildingSearchResponse> result = buildingService.findAll();
 		return result;
 	}
 
 	@GetMapping("/{buildingId}")
-	public @ResponseBody List<BuildingBean> getDetail(@PathVariable String buildingId) {
+	public @ResponseBody List<BuildingDTO> getDetail(@PathVariable String buildingId) {
 		return null;
 	}
 
@@ -40,9 +44,9 @@ public class BuildingApi {
 //		System.out.println(10/0);
 //		return null;
 //	}
-	
+
 	@PostMapping
-	public Object createBuilding(@RequestBody BuildingBean newBuilding) {
+	public Object createBuilding(@RequestBody BuildingDTO newBuilding) {
 //		try {
 //			System.out.println(10/0);
 //			return newBuilding;
@@ -54,12 +58,12 @@ public class BuildingApi {
 //			errorResponseBean.setDetails(details);
 //			return errorResponseBean;
 //		}
-		System.out.println(10/0);
+		System.out.println(10 / 0);
 		return newBuilding;
 	}
 
 	@PutMapping
-	public Object updateBuilding(@RequestBody BuildingBean updateBuilding) {
+	public Object updateBuilding(@RequestBody BuildingDTO updateBuilding) {
 		validateData(updateBuilding);
 		return updateBuilding;
 	}
@@ -67,17 +71,15 @@ public class BuildingApi {
 	@DeleteMapping
 	public void deleteBuilding(@RequestBody Long[] ids) {
 		System.out.println(ids.toString());
-	}	
-	
-	@PostMapping("/assignment")
-	public void assignmentBuilding(@RequestBody AssignmentBuildingBean assignmentBuildingBean) {
-		
 	}
-	
-	private void validateData(BuildingBean building){
-		if(building.getName() == null 
-				|| !building.getName().isEmpty() 
-				|| building.getFloorArea() == null 
+
+	@PostMapping("/assignment")
+	public void assignmentBuilding(@RequestBody BuildingAssignmentRequest assignmentBuildingBean) {
+
+	}
+
+	private void validateData(BuildingDTO building) {
+		if (building.getName() == null || !building.getName().isEmpty() || building.getFloorArea() == null
 				|| building.getNumberOfBasement() == null) {
 			throw new FieldRequiredException("Fields are required");
 		}

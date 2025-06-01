@@ -9,15 +9,15 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 
-import com.iamdvh.bean.ErrorResponseBean;
+import com.iamdvh.dto.ResponseDTO;
 import com.iamdvh.exception.FieldRequiredException;
 
 @ControllerAdvice
 public class ControllerAdvisor {
 	
 	@ExceptionHandler(ArithmeticException.class)
-	public ResponseEntity<ErrorResponseBean> handleArithmicException(ArithmeticException e , WebRequest request) {
-		ErrorResponseBean result = new ErrorResponseBean();
+	public ResponseEntity<ResponseDTO> handleArithmicException(ArithmeticException e , WebRequest request) {
+		ResponseDTO result = new ResponseDTO();
 		result.setError(e.getMessage());
 		List<String> details = new ArrayList<>();
 		details.add("Anh gì ơi, thế quái nào mà 1 số có thể chia cho 0 được nhỉ.");
@@ -26,8 +26,8 @@ public class ControllerAdvisor {
 	}
 	
 	@ExceptionHandler(FieldRequiredException.class)
-	public ResponseEntity<ErrorResponseBean> handleFieldRequiredException(FieldRequiredException e , WebRequest request) {
-		ErrorResponseBean result = new ErrorResponseBean();
+	public ResponseEntity<ResponseDTO> handleFieldRequiredException(FieldRequiredException e , WebRequest request) {
+		ResponseDTO result = new ResponseDTO();
 		result.setError(e.getMessage());
 		List<String> details = new ArrayList<>();
 		details.add("Tao bảo là field require mà.");

@@ -1,9 +1,9 @@
-package com.iamdvh.bean;
+package com.iamdvh.dto.request;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AssignmentBuildingBean {
+public class BuildingAssignmentRequest {
 	private Long buildingId;
 	private List<Long> staffIds = new ArrayList<Long>();
 	public Long getBuildingId() {

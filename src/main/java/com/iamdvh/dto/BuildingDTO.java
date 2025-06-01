@@ -1,6 +1,6 @@
-package com.iamdvh.bean;
+package com.iamdvh.dto;
 
-public class BuildingBean {
+public class BuildingDTO {
 	private String name;
 	private Integer floorArea;
 	private Integer numberOfBasement;

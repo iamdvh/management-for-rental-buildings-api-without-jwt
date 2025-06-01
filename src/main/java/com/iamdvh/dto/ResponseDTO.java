@@ -1,9 +1,9 @@
-package com.iamdvh.bean;
+package com.iamdvh.dto;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ErrorResponseBean {
+public class ResponseDTO {
 	private String error;
 	private List<String> details = new ArrayList<>();
 
