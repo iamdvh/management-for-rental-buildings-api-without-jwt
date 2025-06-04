@@ -1,10 +1,22 @@
 package com.iamdvh.repository.entity;
 
 public class BuildingEntity {
+	private Long id;
 	private String name;
 	private String street;
 	private String ward;
 	private Long districId;
+	private Integer numberOfBasement;
+	private Integer floorArea;
+	private Integer rentPrice;
+	private Integer serviceFee;
+	private Integer brokerageFee;
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
 	public String getName() {
 		return name;
 	}
@@ -29,4 +41,35 @@ public class BuildingEntity {
 	public void setDistricId(Long districId) {
 		this.districId = districId;
 	}
+	public Integer getNumberOfBasement() {
+		return numberOfBasement;
+	}
+	public void setNumberOfBasement(Integer numberOfBasement) {
+		this.numberOfBasement = numberOfBasement;
+	}
+	public Integer getFloorArea() {
+		return floorArea;
+	}
+	public void setFloorArea(Integer floorArea) {
+		this.floorArea = floorArea;
+	}
+	public Integer getRentPrice() {
+		return rentPrice;
+	}
+	public void setRentPrice(Integer rentPrice) {
+		this.rentPrice = rentPrice;
+	}
+	public Integer getServiceFee() {
+		return serviceFee;
+	}
+	public void setServiceFee(Integer serviceFee) {
+		this.serviceFee = serviceFee;
+	}
+	public Integer getBrokerageFee() {
+		return brokerageFee;
+	}
+	public void setBrokerageFee(Integer brokerageFee) {
+		this.brokerageFee = brokerageFee;
+	}
+	
 }

@@ -1,6 +1,8 @@
 package com.iamdvh.api;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,10 +29,35 @@ public class BuildingApi {
 	private BuildingService buildingService;
 
 	@GetMapping
-	public @ResponseBody List<BuildingSearchResponse> findAll(@RequestParam(value = "name", required = false) String name,
-			@RequestParam(value = "numberofbasement", required = false) String numberofbasement,
+	public @ResponseBody List<BuildingSearchResponse> findAll(
+			@RequestParam(value = "name", required = false) String name,
+			@RequestParam(value = "street", required = false) String street,
+			@RequestParam(value = "ward", required = false) String ward,
+			@RequestParam(value = "districtcode", required = false) String districtCode,
+			@RequestParam(value = "numberofbasement", required = false) Integer numberOfBasement,
+			@RequestParam(value = "direction", required = false) String direction,
+			@RequestParam(value = "level", required = false) String level,
+			@RequestParam(value = "rentareafrom", required = false) Integer rentAreaFrom,
+			@RequestParam(value = "rentareato", required = false) Integer rentAreaTo,
+			@RequestParam(value = "rentpricefrom", required = false) Integer rentPriceFrom,
+			@RequestParam(value = "rentpriceto", required = false) Integer rentPriceTo,
+			@RequestParam(value = "staffid", required = false) Long staffId,
 			@RequestParam(value = "types", required = false) String[] types) {
-		List<BuildingSearchResponse> result = buildingService.findAll();
+		Map<String, Object> buildingSearch = new HashMap<String, Object>();
+		buildingSearch.put("name", name);
+		buildingSearch.put("street", street);
+		buildingSearch.put("ward", ward);
+		buildingSearch.put("districtCode", districtCode);
+		buildingSearch.put("numberOfBasement", numberOfBasement);
+		buildingSearch.put("direction", direction);
+		buildingSearch.put("level", level);
+		buildingSearch.put("rentAreaFrom", rentAreaFrom);
+		buildingSearch.put("rentAreaTo", rentAreaTo);
+		buildingSearch.put("rentPriceFrom", rentPriceFrom);
+		buildingSearch.put("rentPriceTo", rentPriceTo);
+		buildingSearch.put("staffId", staffId);
+		
+		List<BuildingSearchResponse> result = buildingService.findAll(buildingSearch, types);
 		return result;
 	}
 

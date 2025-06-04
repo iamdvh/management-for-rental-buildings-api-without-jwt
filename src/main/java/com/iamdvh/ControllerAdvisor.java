@@ -34,5 +34,13 @@ public class ControllerAdvisor {
 		result.setDetails(details);
 		return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
 	}
+	@ExceptionHandler(Exception.class)
+	public ResponseEntity<ResponseDTO> handleException(Exception e , WebRequest request) {
+		ResponseDTO result = new ResponseDTO();
+		result.setError(e.getMessage());
+		List<String> details = new ArrayList<>();
+		result.setDetails(details);
+		return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+	}
 
 }
