@@ -28,9 +28,9 @@ public class ControllerAdvisor {
 	@ExceptionHandler(FieldRequiredException.class)
 	public ResponseEntity<ResponseDTO> handleFieldRequiredException(FieldRequiredException e , WebRequest request) {
 		ResponseDTO result = new ResponseDTO();
-		result.setError(e.getMessage());
+		result.setError("Fields are required.");
 		List<String> details = new ArrayList<>();
-		details.add("Tao bảo là field require mà.");
+		details.add(e.getMessage());
 		result.setDetails(details);
 		return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
 	}

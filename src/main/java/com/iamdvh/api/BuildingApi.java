@@ -27,7 +27,8 @@ public class BuildingApi {
 	private BuildingService buildingService;
 
 	@GetMapping
-	public @ResponseBody List<BuildingSearchResponse> findAll(@RequestParam(value = "name", required = false) String name,
+	public @ResponseBody List<BuildingSearchResponse> findAll(
+			@RequestParam(value = "name", required = false) String name,
 			@RequestParam(value = "numberofbasement", required = false) String numberofbasement,
 			@RequestParam(value = "types", required = false) String[] types) {
 		List<BuildingSearchResponse> result = buildingService.findAll();
@@ -79,9 +80,14 @@ public class BuildingApi {
 	}
 
 	private void validateData(BuildingDTO building) {
-		if (building.getName() == null || !building.getName().isEmpty() || building.getFloorArea() == null
-				|| building.getNumberOfBasement() == null) {
-			throw new FieldRequiredException("Fields are required");
+		if (building.getName() == null || building.getName().isEmpty()) {
+			throw new FieldRequiredException("Name is required");
+		}
+		if (building.getFloorArea() == null) {
+			throw new FieldRequiredException("Floorarea is required");
+		}
+		if (building.getNumberOfBasement() == null) {
+			throw new FieldRequiredException("Number of basement is required");
 		}
 	}
 }
