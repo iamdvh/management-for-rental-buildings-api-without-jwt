@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 
 import org.springframework.stereotype.Repository;
 
@@ -130,6 +131,24 @@ public class BuildingRepositoryImpl implements BuildingRepository {
 			}
 			String queryType = String.join(", ", pretype);
 			whereQuery.append(" and rt.code in ("+queryType+")");
+		}
+		
+		if (!CheckUtil.isNull(rentAreaFrom) || !CheckUtil.isNull(rentAreaTo)) {
+			
+			joinQuery.append(" join rentarea ra on ra.buildingid = b.id");
+			
+			if (!CheckUtil.isNull(rentAreaFrom) && !CheckUtil.isNull(rentAreaTo)) {
+				whereQuery.append(" and ra.value between " + rentAreaFrom + " and " + rentAreaTo + "");
+			} else if (!CheckUtil.isNull(rentAreaFrom)) {
+				whereQuery.append(" and ra.value >= " + rentAreaFrom + "");
+			} else {
+				whereQuery.append(" and ra.value <= " + rentAreaTo + "");
+			}
+		}
+		
+		if(!CheckUtil.isNull(staffId)) {
+			joinQuery.append(" join assignmentbuilding ab on b.id = ab.buildingid join user u on ab.staffid = u.id");
+			whereQuery.append(" and ab.staffid = "+staffId+"");
 		}
 	}
 
