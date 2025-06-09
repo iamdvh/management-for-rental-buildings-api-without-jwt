@@ -11,6 +11,9 @@ public class BuildingEntity {
 	private Integer rentPrice;
 	private Integer serviceFee;
 	private Integer brokerageFee;
+	private String managerName;
+	private String managerPhone;
+	
 	public Long getId() {
 		return id;
 	}
@@ -71,5 +74,18 @@ public class BuildingEntity {
 	public void setBrokerageFee(Integer brokerageFee) {
 		this.brokerageFee = brokerageFee;
 	}
+	public String getManagerName() {
+		return managerName;
+	}
+	public void setManagerName(String managerName) {
+		this.managerName = managerName;
+	}
+	public String getManagerPhone() {
+		return managerPhone;
+	}
+	public void setManagerPhone(String managerPhone) {
+		this.managerPhone = managerPhone;
+	}
+	
 	
 }

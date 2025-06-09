@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.iamdvh.dto.BuildingDTO;
 import com.iamdvh.dto.request.BuildingAssignmentRequest;
+import com.iamdvh.dto.request.BuildingSearchRequest;
 import com.iamdvh.dto.response.BuildingSearchResponse;
 import com.iamdvh.exception.FieldRequiredException;
 import com.iamdvh.service.BuildingService;
@@ -27,7 +29,7 @@ import com.iamdvh.service.BuildingService;
 public class BuildingApi {
 	@Autowired
 	private BuildingService buildingService;
-
+/*
 	@GetMapping
 	public @ResponseBody List<BuildingSearchResponse> findAll(
 			@RequestParam(value = "name", required = false) String name,
@@ -58,6 +60,14 @@ public class BuildingApi {
 		buildingSearch.put("staffId", staffId);
 		
 		List<BuildingSearchResponse> result = buildingService.findAll(buildingSearch, types);
+		return result;
+	}
+	*/
+	
+	@GetMapping
+	public @ResponseBody List<BuildingSearchResponse> findAll(@ModelAttribute BuildingSearchRequest request) {
+		
+		List<BuildingSearchResponse> result = buildingService.findAll(request);
 		return result;
 	}
 

@@ -8,6 +8,10 @@ public class BuildingSearchResponse {
 	private Integer rentPrice;
 	private Integer serviceFee;
 	private Integer brokerageFee;
+	private String managerName;
+	private String managerPhone;
+	private String rentArea;
+	private String rentAreaDescription;
 	private String types;
 	public String getName() {
 		return name;
@@ -56,6 +60,30 @@ public class BuildingSearchResponse {
 	}
 	public void setTypes(String types) {
 		this.types = types;
+	}
+	public String getManagerName() {
+		return managerName;
+	}
+	public void setManagerName(String managerName) {
+		this.managerName = managerName;
+	}
+	public String getManagerPhone() {
+		return managerPhone;
+	}
+	public void setManagerPhone(String managerPhone) {
+		this.managerPhone = managerPhone;
+	}
+	public String getRentArea() {
+		return rentArea;
+	}
+	public void setRentArea(String rentArea) {
+		this.rentArea = rentArea;
+	}
+	public String getRentAreaDescription() {
+		return rentAreaDescription;
+	}
+	public void setRentAreaDescription(String rentAreaDescription) {
+		this.rentAreaDescription = rentAreaDescription;
 	}
 	
 	

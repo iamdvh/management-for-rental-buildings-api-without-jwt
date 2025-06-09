@@ -2,14 +2,15 @@ package com.iamdvh.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.iamdvh.dto.request.BuildingSearchRequest;
 import com.iamdvh.dto.response.BuildingSearchResponse;
 import com.iamdvh.repository.BuildingRentTypeRepository;
 import com.iamdvh.repository.BuildingRepository;
+import com.iamdvh.repository.RentAreaRepository;
 import com.iamdvh.repository.entity.BuildingEntity;
 import com.iamdvh.service.BuildingService;
 @Service
@@ -18,11 +19,13 @@ public class BuildingServiceImpl implements BuildingService{
 	private BuildingRepository buildingRepository;
 	@Autowired
 	private BuildingRentTypeRepository buildingRentTypeRepository;
+	@Autowired
+	private RentAreaRepository areaRepository;
 
 	@Override
-	public List<BuildingSearchResponse> findAll(Map<String, Object> buildingSearch, String[] types) {
+	public List<BuildingSearchResponse> findAll(BuildingSearchRequest request) {
 		List<BuildingSearchResponse> result = new ArrayList<>();
-		List<BuildingEntity> buildingEntities = buildingRepository.findAll(buildingSearch, types);
+		List<BuildingEntity> buildingEntities = buildingRepository.findAll(request);
 		for (BuildingEntity item : buildingEntities) {
 			BuildingSearchResponse buildingSearchResponse = new BuildingSearchResponse();
 			buildingSearchResponse.setName(item.getName());
@@ -33,6 +36,9 @@ public class BuildingServiceImpl implements BuildingService{
 			buildingSearchResponse.setServiceFee(item.getServiceFee());
 			buildingSearchResponse.setBrokerageFee(item.getBrokerageFee());
 			buildingSearchResponse.setTypes(findTypes(item.getId()));
+			buildingSearchResponse.setManagerName(item.getManagerName());
+			buildingSearchResponse.setManagerPhone(item.getManagerPhone());
+			buildingSearchResponse.setRentArea(findRentAreas(item.getId()));
 			result.add(buildingSearchResponse);
 		}
 		return result;
@@ -41,6 +47,10 @@ public class BuildingServiceImpl implements BuildingService{
 	
 	private String findTypes(Long buildingId) {
 		return buildingRentTypeRepository.findByBuildingId(buildingId);
+	}
+	
+	private String findRentAreas(Long buildingId) {
+		return areaRepository.findByBuildingId(buildingId);
 	}
 
 }

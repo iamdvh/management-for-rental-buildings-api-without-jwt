@@ -2,7 +2,7 @@ package com.iamdvh.utils;
 
 public class CheckUtil {
 	public static Boolean isNullOrEmpty(String value) {
-		return value == null || value == "";
+		return value == null || value.equals("");
 	}
 	public static Boolean isNull(Integer value) {
 		return value == null;

@@ -1,18 +1,16 @@
 package com.iamdvh.repository.impl;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Queue;
 
 import org.springframework.stereotype.Repository;
 
 import com.iamdvh.contant.SystemContant;
+import com.iamdvh.dto.request.BuildingSearchRequest;
 import com.iamdvh.repository.BuildingRepository;
 import com.iamdvh.repository.entity.BuildingEntity;
 import com.iamdvh.utils.CheckUtil;
@@ -21,14 +19,14 @@ import com.iamdvh.utils.ConnectionUtil;
 @Repository
 public class BuildingRepositoryImpl implements BuildingRepository {
 	@Override
-	public List<BuildingEntity> findAll(Map<String, Object> params, String[] types) {
+	public List<BuildingEntity> findAll(BuildingSearchRequest params) {
 		StringBuilder whereQuery = new StringBuilder();
 		StringBuilder joinQuery = new StringBuilder();
 		StringBuilder finalQuery = new StringBuilder(
-				"select distinct b.id , b.name , b.street , b.ward, b.districtid , b.numberofbasement , b.floorarea , b.rentprice, b.servicefee, b.brokeragefee"
+				"select distinct b.createddate, b.managerphone, b.managername, b.id , b.name , b.street , b.ward, b.districtid , b.numberofbasement , b.floorarea , b.rentprice, b.servicefee, b.brokeragefee"
 		);
 		buildNormalQuery(params, whereQuery);
-		builSpecialQuery(params, types, joinQuery, whereQuery, finalQuery);
+		builSpecialQuery(params, params.getTypes(), joinQuery, whereQuery, finalQuery);
 		finalQuery.append(" from building b");
 		
 		finalQuery.append(joinQuery).append(SystemContant.ONE_EQUAL_ONE).append(whereQuery);
@@ -52,6 +50,8 @@ public class BuildingRepositoryImpl implements BuildingRepository {
 				buidingEntity.setRentPrice(rs.getInt("rentprice"));
 				buidingEntity.setServiceFee(rs.getInt("servicefee"));
 				buidingEntity.setBrokerageFee(rs.getInt("brokeragefee"));
+				buidingEntity.setManagerName(rs.getString("managername"));
+				buidingEntity.setManagerPhone(rs.getString("managerphone"));
 				result.add(buidingEntity);
 			}
 		} catch (SQLException e) {
@@ -60,16 +60,16 @@ public class BuildingRepositoryImpl implements BuildingRepository {
 		return result;
 	}
 
-	private void buildNormalQuery(Map<String, Object> params, StringBuilder whereQuery) {
-		String name = (String) params.get("name");
-		String street = (String) params.get("street");
-		String ward = (String) params.get("ward");
-		Long floorArea = (Long) params.get("floorArea");
-		Integer numberOfBasement = (Integer) params.get("numberOfBasement");
-		String direction = (String) params.get("direction");
-		String level = (String) params.get("level");
-		Integer rentPriceTo = (Integer) params.get("rentPriceTo");
-		Integer rentPriceFrom = (Integer) params.get("rentPriceFrom");
+	private void buildNormalQuery(BuildingSearchRequest params, StringBuilder whereQuery) {
+		String name = params.getName();
+		String street = params.getStreet();
+		String ward = params.getWard();
+		Long floorArea = params.getFloorArea();
+		Integer numberOfBasement = params.getNumberOfBasement();
+		String direction = params.getDirection();
+		String level = params.getLevel();
+		Integer rentPriceTo = params.getRentAreaTo();
+		Integer rentPriceFrom = params.getRentPriceFrom();
 
 		if (!CheckUtil.isNullOrEmpty(name)) {
 			whereQuery.append(" and b.name like '%" + name + "%'");
@@ -111,11 +111,11 @@ public class BuildingRepositoryImpl implements BuildingRepository {
 		
 	}
 
-	private void builSpecialQuery(Map<String, Object> params, String[] types, StringBuilder joinQuery, StringBuilder whereQuery, StringBuilder finalQuery) {
-		String districtCode = (String) params.get("districtCode");
-		Integer rentAreaFrom = (Integer) params.get("rentAreaFrom");
-		Integer rentAreaTo = (Integer) params.get("rentAreaTo");
-		Long staffId = (Long) params.get("staffId");
+	private void builSpecialQuery(BuildingSearchRequest params, String[] types, StringBuilder joinQuery, StringBuilder whereQuery, StringBuilder finalQuery) {
+		String districtCode = params.getDistrictCode();
+		Integer rentAreaFrom = params.getRentAreaFrom();
+		Integer rentAreaTo = params.getRentAreaTo();
+		Long staffId = params.getStaffId();
 		
 		
 		if(!CheckUtil.isNullOrEmpty(districtCode)){
