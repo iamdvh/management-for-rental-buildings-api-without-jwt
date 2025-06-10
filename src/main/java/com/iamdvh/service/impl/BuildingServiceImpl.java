@@ -2,11 +2,11 @@ package com.iamdvh.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.iamdvh.dto.request.BuildingSearchRequest;
 import com.iamdvh.dto.response.BuildingSearchResponse;
 import com.iamdvh.repository.BuildingRentTypeRepository;
 import com.iamdvh.repository.BuildingRepository;
@@ -23,7 +23,7 @@ public class BuildingServiceImpl implements BuildingService{
 	private RentAreaRepository areaRepository;
 
 	@Override
-	public List<BuildingSearchResponse> findAll(BuildingSearchRequest request) {
+	public List<BuildingSearchResponse> findAll(Map<String, Object> request) {
 		List<BuildingSearchResponse> result = new ArrayList<>();
 		List<BuildingEntity> buildingEntities = buildingRepository.findAll(request);
 		for (BuildingEntity item : buildingEntities) {
@@ -52,5 +52,8 @@ public class BuildingServiceImpl implements BuildingService{
 	private String findRentAreas(Long buildingId) {
 		return areaRepository.findByBuildingId(buildingId);
 	}
+
+
+
 
 }

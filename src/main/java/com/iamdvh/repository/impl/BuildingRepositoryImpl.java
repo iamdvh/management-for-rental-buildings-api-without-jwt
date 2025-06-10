@@ -6,11 +6,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
 import com.iamdvh.contant.SystemContant;
-import com.iamdvh.dto.request.BuildingSearchRequest;
 import com.iamdvh.repository.BuildingRepository;
 import com.iamdvh.repository.entity.BuildingEntity;
 import com.iamdvh.utils.CheckUtil;
@@ -19,14 +19,14 @@ import com.iamdvh.utils.ConnectionUtil;
 @Repository
 public class BuildingRepositoryImpl implements BuildingRepository {
 	@Override
-	public List<BuildingEntity> findAll(BuildingSearchRequest params) {
+	public List<BuildingEntity> findAll(Map<String, Object> params) {
 		StringBuilder whereQuery = new StringBuilder();
 		StringBuilder joinQuery = new StringBuilder();
 		StringBuilder finalQuery = new StringBuilder(
 				"select distinct b.createddate, b.managerphone, b.managername, b.id , b.name , b.street , b.ward, b.districtid , b.numberofbasement , b.floorarea , b.rentprice, b.servicefee, b.brokeragefee"
 		);
 		buildNormalQuery(params, whereQuery);
-		builSpecialQuery(params, params.getTypes(), joinQuery, whereQuery, finalQuery);
+		builSpecialQuery(params,(String[])params.get("types"), joinQuery, whereQuery, finalQuery);
 		finalQuery.append(" from building b");
 		
 		finalQuery.append(joinQuery).append(SystemContant.ONE_EQUAL_ONE).append(whereQuery);
@@ -60,16 +60,16 @@ public class BuildingRepositoryImpl implements BuildingRepository {
 		return result;
 	}
 
-	private void buildNormalQuery(BuildingSearchRequest params, StringBuilder whereQuery) {
-		String name = params.getName();
-		String street = params.getStreet();
-		String ward = params.getWard();
-		Long floorArea = params.getFloorArea();
-		Integer numberOfBasement = params.getNumberOfBasement();
-		String direction = params.getDirection();
-		String level = params.getLevel();
-		Integer rentPriceTo = params.getRentAreaTo();
-		Integer rentPriceFrom = params.getRentPriceFrom();
+	private void buildNormalQuery(Map<String, Object> params, StringBuilder whereQuery) {
+		String name = (String) params.get("name") ;
+		String street = (String) params.get("street") ;
+		String ward = (String) params.get("ward");
+		Long floorArea = !CheckUtil.isNullOrEmpty((String) params.get("floorarea")) ? Long.valueOf((String) params.get("floorarea")) : null;
+		Integer numberOfBasement = !CheckUtil.isNullOrEmpty((String) params.get("numberofbasement")) ?  Integer.valueOf((String) params.get("numberofbasement")) : null ;
+		String direction = (String) params.get("direction");
+		String level = (String) params.get("level");
+		Integer rentPriceTo = !CheckUtil.isNullOrEmpty((String) params.get("rentpriceto")) ?  Integer.valueOf((String)  params.get("rentpriceto")) : null;
+		Integer rentPriceFrom = !CheckUtil.isNullOrEmpty((String) params.get("rentpricefrom")) ? Integer.valueOf((String)  params.get("rentpricefrom")) : null;
 
 		if (!CheckUtil.isNullOrEmpty(name)) {
 			whereQuery.append(" and b.name like '%" + name + "%'");
@@ -111,11 +111,11 @@ public class BuildingRepositoryImpl implements BuildingRepository {
 		
 	}
 
-	private void builSpecialQuery(BuildingSearchRequest params, String[] types, StringBuilder joinQuery, StringBuilder whereQuery, StringBuilder finalQuery) {
-		String districtCode = params.getDistrictCode();
-		Integer rentAreaFrom = params.getRentAreaFrom();
-		Integer rentAreaTo = params.getRentAreaTo();
-		Long staffId = params.getStaffId();
+	private void builSpecialQuery(Map<String, Object> params, String[] types, StringBuilder joinQuery, StringBuilder whereQuery, StringBuilder finalQuery) {
+		String districtCode = (String) params.get("districtcode");
+		Integer rentAreaFrom = !CheckUtil.isNullOrEmpty((String) params.get("rentareafrom")) ?  Integer.valueOf((String)params.get("rentareafrom") ): null;
+		Integer rentAreaTo =!CheckUtil.isNullOrEmpty((String) params.get("rentareato")) ?  Integer.valueOf((String)params.get("rentareato")) : null;
+		Long staffId =!CheckUtil.isNullOrEmpty((String) params.get("staffid")) ?  Long.valueOf((String) params.get("staffid")) : null;
 		
 		
 		if(!CheckUtil.isNullOrEmpty(districtCode)){
@@ -151,5 +151,6 @@ public class BuildingRepositoryImpl implements BuildingRepository {
 			whereQuery.append(" and ab.staffid = "+staffId+"");
 		}
 	}
+	
 
 }
