@@ -29,7 +29,7 @@ public class BuildingApi {
 	
 	@GetMapping
 	public @ResponseBody List<BuildingSearchResponse> findAll(
-			@RequestParam Map<String, Object> request, @RequestParam String[] types) {
+			@RequestParam Map<String, Object> request, @RequestParam(value = "types", required = false) List<String> types) {
 		request.put("types", types);
 		List<BuildingSearchResponse> result = buildingService.findAll(request);
 		return result;

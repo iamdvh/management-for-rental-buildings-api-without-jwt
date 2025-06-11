@@ -25,8 +25,9 @@ public class BuildingRepositoryImpl implements BuildingRepository {
 		StringBuilder finalQuery = new StringBuilder(
 				"select distinct b.createddate, b.managerphone, b.managername, b.id , b.name , b.street , b.ward, b.districtid , b.numberofbasement , b.floorarea , b.rentprice, b.servicefee, b.brokeragefee"
 		);
+		List<String> types = params.get("types") instanceof List ? (List<String>) params.get("types") : new ArrayList<>();
 		buildNormalQuery(params, whereQuery);
-		builSpecialQuery(params,(String[])params.get("types"), joinQuery, whereQuery, finalQuery);
+		builSpecialQuery(params, types , joinQuery, whereQuery, finalQuery);
 		finalQuery.append(" from building b");
 		
 		finalQuery.append(joinQuery).append(SystemContant.ONE_EQUAL_ONE).append(whereQuery);
@@ -111,7 +112,7 @@ public class BuildingRepositoryImpl implements BuildingRepository {
 		
 	}
 
-	private void builSpecialQuery(Map<String, Object> params, String[] types, StringBuilder joinQuery, StringBuilder whereQuery, StringBuilder finalQuery) {
+	private void builSpecialQuery(Map<String, Object> params, List<String> types, StringBuilder joinQuery, StringBuilder whereQuery, StringBuilder finalQuery) {
 		String districtCode = (String) params.get("districtcode");
 		Integer rentAreaFrom = !CheckUtil.isNullOrEmpty((String) params.get("rentareafrom")) ?  Integer.valueOf((String)params.get("rentareafrom") ): null;
 		Integer rentAreaTo =!CheckUtil.isNullOrEmpty((String) params.get("rentareato")) ?  Integer.valueOf((String)params.get("rentareato")) : null;
@@ -123,7 +124,7 @@ public class BuildingRepositoryImpl implements BuildingRepository {
 			whereQuery.append(" and d.code = '"+districtCode+"'");
 		}
 		
-		if(types.length > 0) {
+		if(types.size() > 0) {
 			joinQuery.append(" join buildingrenttype t on t.buildingid = b.id join renttype rt on t.renttypeid = rt.id");
 			List<String> pretype = new ArrayList<>();
 			for(String item : types) {
