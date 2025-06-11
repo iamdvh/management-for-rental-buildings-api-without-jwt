@@ -23,9 +23,9 @@ public class BuildingServiceImpl implements BuildingService{
 	private RentAreaRepository areaRepository;
 
 	@Override
-	public List<BuildingSearchResponse> findAll(Map<String, Object> request) {
+	public List<BuildingSearchResponse> findAll(Map<String, Object> request, List<String> types) {
 		List<BuildingSearchResponse> result = new ArrayList<>();
-		List<BuildingEntity> buildingEntities = buildingRepository.findAll(request);
+		List<BuildingEntity> buildingEntities = buildingRepository.findAll(request, types);
 		for (BuildingEntity item : buildingEntities) {
 			BuildingSearchResponse buildingSearchResponse = new BuildingSearchResponse();
 			buildingSearchResponse.setName(item.getName());
