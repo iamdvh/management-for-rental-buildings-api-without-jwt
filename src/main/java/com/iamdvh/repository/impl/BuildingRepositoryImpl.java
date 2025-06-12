@@ -73,23 +73,23 @@ public class BuildingRepositoryImpl implements BuildingRepository {
 		Integer rentPriceFrom = !CheckUtil.isNullOrEmpty((String) params.get("rentpricefrom")) ? Integer.valueOf((String)  params.get("rentpricefrom")) : null;
 
 		if (!CheckUtil.isNullOrEmpty(name)) {
-			whereQuery.append(" and b.name like '%" + name + "%'");
+			whereQuery.append(" and lower(b.name) like '%" + name.toLowerCase() + "%'");
 		}
 
 		if (!CheckUtil.isNullOrEmpty(street)) {
-			whereQuery.append(" and b.street like '%" + street + "%'");
+			whereQuery.append(" and lower(b.street) like '%" + street.toLowerCase() + "%'");
 		}
 
 		if (!CheckUtil.isNullOrEmpty(ward)) {
-			whereQuery.append(" and b.ward like '%" + ward + "%'");
+			whereQuery.append(" and lower(b.ward) like '%" + ward.toLowerCase() + "%'");
 		}
 
 		if (!CheckUtil.isNullOrEmpty(direction)) {
-			whereQuery.append(" and b.direction like '%" + direction + "%'");
+			whereQuery.append(" and lower(b.direction) like '%" + direction.toLowerCase() + "%'");
 		}
 
 		if (!CheckUtil.isNullOrEmpty(level)) {
-			whereQuery.append(" and b.level like '%" + level + "%'");
+			whereQuery.append(" and lower(b.level) like '%" + level.toLowerCase() + "%'");
 		}
 
 		if (!CheckUtil.isNull(floorArea)) {
@@ -121,7 +121,7 @@ public class BuildingRepositoryImpl implements BuildingRepository {
 		
 		if(!CheckUtil.isNullOrEmpty(districtCode)){
 			joinQuery.append(" join district d on b.districtid = d.id");
-			whereQuery.append(" and d.code = '"+districtCode+"'");
+			whereQuery.append(" and d.code = '"+districtCode.toLowerCase()+"'");
 		}
 		
 		if(types != null) {
