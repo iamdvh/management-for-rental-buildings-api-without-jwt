@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,6 +25,7 @@ import com.iamdvh.service.BuildingService;
 
 @RestController
 @RequestMapping("/api/building")
+@PropertySource("classpath:application.properties")
 public class BuildingApi {
 	@Autowired
 	private BuildingService buildingService;
