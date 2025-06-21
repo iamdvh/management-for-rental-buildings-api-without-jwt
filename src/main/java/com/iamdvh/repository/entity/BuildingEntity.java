@@ -1,10 +1,33 @@
 package com.iamdvh.repository.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.*;
+
+@Entity
+@Table(name = "building")
 public class BuildingEntity {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	@Column(name = "name")
 	private String name;
+	@Column(name = "street")
 	private String street;
+	@Column(name = "ward")
 	private String ward;
+	@Column(name = "districtId")
 	private Long districId;
+	@OneToMany(mappedBy = "building")
+	private List<RentAreaEntity> rentAreas = new ArrayList<>();
+	
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
 	public String getName() {
 		return name;
 	}
