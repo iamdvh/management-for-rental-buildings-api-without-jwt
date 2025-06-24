@@ -27,7 +27,7 @@ public class RoleEntity {
 	private String code;
 	@ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
 	List<UserEntity> users = new ArrayList<>();
-
+//
 //	@OneToMany(mappedBy = "roles")
 //	private List<UserRoleEntity> userRoles = new ArrayList<>();
 	public Long getId() {
