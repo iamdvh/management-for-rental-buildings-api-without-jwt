@@ -9,7 +9,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import com.iamdvh.contant.SystemContant;
+import com.iamdvh.constant.SystemContant;
 import com.iamdvh.repository.BuildingRentTypeRepository;
 import com.iamdvh.utils.CheckUtil;
 import com.iamdvh.utils.ConnectionUtil;

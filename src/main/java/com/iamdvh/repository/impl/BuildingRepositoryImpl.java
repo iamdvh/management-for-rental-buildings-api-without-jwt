@@ -12,7 +12,7 @@ import java.util.Queue;
 
 import org.springframework.stereotype.Repository;
 
-import com.iamdvh.contant.SystemContant;
+import com.iamdvh.constant.SystemContant;
 import com.iamdvh.repository.BuildingRepository;
 import com.iamdvh.repository.entity.BuildingEntity;
 import com.iamdvh.utils.CheckUtil;
