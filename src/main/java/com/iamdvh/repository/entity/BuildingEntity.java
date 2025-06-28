@@ -52,4 +52,11 @@ public class BuildingEntity {
 	public void setDistricId(Long districId) {
 		this.districId = districId;
 	}
+	public List<RentAreaEntity> getRentAreas() {
+		return rentAreas;
+	}
+	public void setRentAreas(List<RentAreaEntity> rentAreas) {
+		this.rentAreas = rentAreas;
+	}
+	
 }

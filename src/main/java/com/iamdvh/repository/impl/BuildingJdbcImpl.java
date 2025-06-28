@@ -18,7 +18,7 @@ import com.iamdvh.repository.entity.BuildingEntity;
 
 @Repository
 @PropertySource("classpath:application.properties")
-public class BuildingJdbcImpl implements BuildingRepository {
+public class BuildingJdbcImpl implements BuildingJdbc {
 //	private String DB_URL = "jdbc:mysql://localhost:3306/estatebasic";
 //	private String USER = "root";
 //	private String PASS = "root";
