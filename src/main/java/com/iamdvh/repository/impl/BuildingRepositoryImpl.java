@@ -152,4 +152,11 @@ public class BuildingRepositoryImpl implements BuildingRepository {
 		}
 	}
 
+	@Override
+	public List<BuildingEntity> findAll(Map<String, Object> params, List<String> types) {
+		String query = "select * from building where 1 = 1 ";
+		
+		return null;
+	}
+
 }

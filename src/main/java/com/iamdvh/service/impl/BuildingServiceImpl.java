@@ -43,4 +43,11 @@ public class BuildingServiceImpl implements BuildingService{
 		return buildingRentTypeRepository.findByBuildingId(buildingId);
 	}
 
+
+	@Override
+	public List<BuildingSearchResponse> findAll(Map<String, Object> params, List<String> types) {
+		
+		return null;
+	}
+
 }
