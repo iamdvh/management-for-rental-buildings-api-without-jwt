@@ -28,38 +28,45 @@ public class BuildingApi {
 	@Autowired
 	private BuildingService buildingService;
 
+//	@GetMapping
+//	public @ResponseBody List<BuildingSearchResponse> findAll(
+//			@RequestParam(value = "name", required = false) String name,
+//			@RequestParam(value = "street", required = false) String street,
+//			@RequestParam(value = "ward", required = false) String ward,
+//			@RequestParam(value = "districtcode", required = false) String districtCode,
+//			@RequestParam(value = "numberofbasement", required = false) Integer numberOfBasement,
+//			@RequestParam(value = "direction", required = false) String direction,
+//			@RequestParam(value = "level", required = false) String level,
+//			@RequestParam(value = "rentareafrom", required = false) Integer rentAreaFrom,
+//			@RequestParam(value = "rentareato", required = false) Integer rentAreaTo,
+//			@RequestParam(value = "rentpricefrom", required = false) Integer rentPriceFrom,
+//			@RequestParam(value = "rentpriceto", required = false) Integer rentPriceTo,
+//			@RequestParam(value = "staffid", required = false) Long staffId,
+//			@RequestParam(value = "types", required = false) String[] types) {
+//		Map<String, Object> buildingSearch = new HashMap<String, Object>();
+//		buildingSearch.put("name", name);
+//		buildingSearch.put("street", street);
+//		buildingSearch.put("ward", ward);
+//		buildingSearch.put("districtCode", districtCode);
+//		buildingSearch.put("numberOfBasement", numberOfBasement);
+//		buildingSearch.put("direction", direction);
+//		buildingSearch.put("level", level);
+//		buildingSearch.put("rentAreaFrom", rentAreaFrom);
+//		buildingSearch.put("rentAreaTo", rentAreaTo);
+//		buildingSearch.put("rentPriceFrom", rentPriceFrom);
+//		buildingSearch.put("rentPriceTo", rentPriceTo);
+//		buildingSearch.put("staffId", staffId);
+//		
+//		List<BuildingSearchResponse> result = buildingService.findAll(buildingSearch, types);
+//		return result;
+//	}
+	
 	@GetMapping
-	public @ResponseBody List<BuildingSearchResponse> findAll(
-			@RequestParam(value = "name", required = false) String name,
-			@RequestParam(value = "street", required = false) String street,
-			@RequestParam(value = "ward", required = false) String ward,
-			@RequestParam(value = "districtcode", required = false) String districtCode,
-			@RequestParam(value = "numberofbasement", required = false) Integer numberOfBasement,
-			@RequestParam(value = "direction", required = false) String direction,
-			@RequestParam(value = "level", required = false) String level,
-			@RequestParam(value = "rentareafrom", required = false) Integer rentAreaFrom,
-			@RequestParam(value = "rentareato", required = false) Integer rentAreaTo,
-			@RequestParam(value = "rentpricefrom", required = false) Integer rentPriceFrom,
-			@RequestParam(value = "rentpriceto", required = false) Integer rentPriceTo,
-			@RequestParam(value = "staffid", required = false) Long staffId,
-			@RequestParam(value = "types", required = false) String[] types) {
-		Map<String, Object> buildingSearch = new HashMap<String, Object>();
-		buildingSearch.put("name", name);
-		buildingSearch.put("street", street);
-		buildingSearch.put("ward", ward);
-		buildingSearch.put("districtCode", districtCode);
-		buildingSearch.put("numberOfBasement", numberOfBasement);
-		buildingSearch.put("direction", direction);
-		buildingSearch.put("level", level);
-		buildingSearch.put("rentAreaFrom", rentAreaFrom);
-		buildingSearch.put("rentAreaTo", rentAreaTo);
-		buildingSearch.put("rentPriceFrom", rentPriceFrom);
-		buildingSearch.put("rentPriceTo", rentPriceTo);
-		buildingSearch.put("staffId", staffId);
-		
-		List<BuildingSearchResponse> result = buildingService.findAll(buildingSearch, types);
-		return result;
+	public @ResponseBody List<BuildingSearchResponse> findAll(@RequestParam Map<String, Object> params,@RequestParam(value = "types", required = false) List<String> types) {
+		List<BuildingSearchResponse> results = buildingService.findAll(params, types);
+		return results;
 	}
+
 
 	@GetMapping("/{buildingId}")
 	public @ResponseBody List<BuildingDTO> getDetail(@PathVariable String buildingId) {
