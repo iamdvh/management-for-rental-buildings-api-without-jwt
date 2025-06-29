@@ -22,7 +22,7 @@ public class BuildingServiceImpl implements BuildingService{
 	@Override
 	public List<BuildingSearchResponse> findAll(Map<String, Object> buildingSearch, String[] types) {
 		List<BuildingSearchResponse> result = new ArrayList<>();
-		List<BuildingEntity> buildingEntities = buildingRepository.findAll(buildingSearch, types);
+		List<BuildingEntity> buildingEntities = buildingRepository.findAll(buildingSearch, types, "test");
 		for (BuildingEntity item : buildingEntities) {
 			BuildingSearchResponse buildingSearchResponse = new BuildingSearchResponse();
 			buildingSearchResponse.setName(item.getName());
@@ -46,7 +46,7 @@ public class BuildingServiceImpl implements BuildingService{
 
 	@Override
 	public List<BuildingSearchResponse> findAll(Map<String, Object> params, List<String> types) {
-		
+		buildingRepository.findAll(params, types);
 		return null;
 	}
 

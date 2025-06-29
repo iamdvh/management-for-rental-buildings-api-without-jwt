@@ -1,14 +1,12 @@
 package com.iamdvh.repository.impl;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Queue;
 
 import org.springframework.stereotype.Repository;
 
@@ -17,11 +15,12 @@ import com.iamdvh.repository.BuildingRepository;
 import com.iamdvh.repository.entity.BuildingEntity;
 import com.iamdvh.utils.CheckUtil;
 import com.iamdvh.utils.ConnectionUtil;
+import com.iamdvh.utils.MapUtils;
 
 @Repository
 public class BuildingRepositoryImpl implements BuildingRepository {
 	@Override
-	public List<BuildingEntity> findAll(Map<String, Object> params, String[] types) {
+	public List<BuildingEntity> findAll(Map<String, Object> params, String[] types, String test) {
 		StringBuilder whereQuery = new StringBuilder();
 		StringBuilder joinQuery = new StringBuilder();
 		StringBuilder finalQuery = new StringBuilder(
@@ -151,11 +150,25 @@ public class BuildingRepositoryImpl implements BuildingRepository {
 			whereQuery.append(" and ab.staffid = "+staffId+"");
 		}
 	}
-
+	// Level 1
 	@Override
 	public List<BuildingEntity> findAll(Map<String, Object> params, List<String> types) {
-		String query = "select * from building where 1 = 1 ";
-		
+	/*	String name = params.containsKey("name") ? params.get("name").toString() : null;
+		Integer numberOfBasement = params.containsKey("numberofbasement") ? (params.get("numberofbasement").toString() != "" ? Integer.parseInt(params.get("numberofbasement").toString()) : null) : null;
+		Long staffId = params.containsKey("staffid") ?( params.get("staffid").toString() != "" ? Long.parseLong(params.get("staffid").toString()) : null): null;
+		*/
+		String name = MapUtils.getObject(params, "name", String.class);
+		Integer numberOfBasement = MapUtils.getObject(params, "numberofbasement", Integer.class);
+		Long staffId = MapUtils.getObject(params, "staffid", Long.class);
+
+		String query = "select * from building b ";
+		if(staffId != null) {
+			query += "inner join assignmentbuilding ab on";
+		}
+		query += SystemContant.ONE_EQUAL_ONE;
+		if(staffId != null) {
+			query += "and ab.staffid = ab.id";
+		}
 		return null;
 	}
 
