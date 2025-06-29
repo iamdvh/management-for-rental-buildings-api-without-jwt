@@ -5,10 +5,18 @@ import java.util.Map;
 public class MapUtils {
 	public static <T> T getObject(Map<String, Object> maps, String key, Class<T> tClass) {
 		try {
-			if (tClass.getTypeName().equals("java.lang.String")) {
-				return maps.containsKey(key) ? (maps.get(key) != null ? tClass.cast(maps.get(key)) : null) : null;
+			Object obj = maps.getOrDefault(key, null);
+			if (obj != null) {
+				if (tClass.getTypeName().equals("java.lang.Long")) {
+					obj = obj != "" ? Long.valueOf(obj.toString()) : null;
+				} else if (tClass.getTypeName().equals("java.lang.Integer")) {
+					obj = obj != "" ? Integer.valueOf(obj.toString()) : null;
+				} else if (tClass.getTypeName().equals("java.lang.String")) {
+					obj = obj.toString();
+				}
+				return tClass.cast(obj);
 			}
-			return maps.containsKey(key) ? (maps.get(key).toString() != "" ? tClass.cast(maps.get(key)) : null) : null;
+			return null;
 		} catch (Exception e) {
 			return null;
 		}

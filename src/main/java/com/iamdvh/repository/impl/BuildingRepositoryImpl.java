@@ -145,6 +145,17 @@ public class BuildingRepositoryImpl implements BuildingRepository {
 			}
 		}
 		
+		if(rentAreaFrom != null || rentAreaTo != null) {
+			whereQuery.append(" and exists (select * from rentarea r where r.buildingid = b.id");
+			if(rentAreaFrom != null) {
+				whereQuery.append(" r.value >= "+rentAreaFrom+"");
+			}
+			if(rentAreaTo != null) {
+				whereQuery.append(" r.value <= "+rentAreaTo+"");
+			}
+			whereQuery.append(" )");
+		}
+		
 		if(!CheckUtil.isNull(staffId)) {
 			joinQuery.append(" join assignmentbuilding ab on b.id = ab.buildingid join user u on ab.staffid = u.id");
 			whereQuery.append(" and ab.staffid = "+staffId+"");
@@ -153,21 +164,17 @@ public class BuildingRepositoryImpl implements BuildingRepository {
 	// Level 1
 	@Override
 	public List<BuildingEntity> findAll(Map<String, Object> params, List<String> types) {
-	/*	String name = params.containsKey("name") ? params.get("name").toString() : null;
-		Integer numberOfBasement = params.containsKey("numberofbasement") ? (params.get("numberofbasement").toString() != "" ? Integer.parseInt(params.get("numberofbasement").toString()) : null) : null;
-		Long staffId = params.containsKey("staffid") ?( params.get("staffid").toString() != "" ? Long.parseLong(params.get("staffid").toString()) : null): null;
-		*/
 		String name = MapUtils.getObject(params, "name", String.class);
 		Integer numberOfBasement = MapUtils.getObject(params, "numberofbasement", Integer.class);
 		Long staffId = MapUtils.getObject(params, "staffid", Long.class);
 
-		String query = "select * from building b ";
+		StringBuilder query = new StringBuilder( "select * from building as b ");
 		if(staffId != null) {
-			query += "inner join assignmentbuilding ab on";
+			query.append("inner join assignmentbuilding ab on");
 		}
-		query += SystemContant.ONE_EQUAL_ONE;
+		query.append( SystemContant.ONE_EQUAL_ONE) ;
 		if(staffId != null) {
-			query += "and ab.staffid = ab.id";
+			query.append("and ab.staffid = ab.id") ;
 		}
 		return null;
 	}
