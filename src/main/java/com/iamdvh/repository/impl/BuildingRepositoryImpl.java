@@ -164,18 +164,49 @@ public class BuildingRepositoryImpl implements BuildingRepository {
 	// Level 1
 	@Override
 	public List<BuildingEntity> findAll(Map<String, Object> params, List<String> types) {
-		String name = MapUtils.getObject(params, "name", String.class);
-		Integer numberOfBasement = MapUtils.getObject(params, "numberofbasement", Integer.class);
-		Long staffId = MapUtils.getObject(params, "staffid", Long.class);
-
 		StringBuilder query = new StringBuilder( "select * from building as b ");
+		query = buildSqlJoin(params, types, query);
+		query.append( SystemContant.ONE_EQUAL_ONE) ;
+		query = buildSqlWhereClause(params, types, query);
+		query.append(" group by b.id");
+
+
+		return null;
+	}
+	
+
+	private StringBuilder buildSqlJoin(Map<String, Object> params, List<String> types, StringBuilder query) {
+		Long staffId = MapUtils.getObject(params, "staffid", Long.class);
 		if(staffId != null) {
 			query.append("inner join assignmentbuilding ab on");
 		}
-		query.append( SystemContant.ONE_EQUAL_ONE) ;
+		return null;
+	}
+
+
+	private StringBuilder buildSqlWhereClause(Map<String, Object> params, List<String> types, StringBuilder query) {
+		String name = MapUtils.getObject(params, "name", String.class);
+		Integer numberOfBasement = MapUtils.getObject(params, "numberofbasement", Integer.class);
+		Long staffId = MapUtils.getObject(params, "staffid", Long.class);
 		if(staffId != null) {
 			query.append("and ab.staffid = ab.id") ;
 		}
+		if (name != null && name != "") {
+			query.append(" and b.name like '%" + name + "%'");
+		}
+		if (numberOfBasement!= null) {
+			query.append(" and b.numberofbasement = " + numberOfBasement + "");
+		}
+		if(types != null && types.size() > 0) {
+			List<String> tempTypes = new ArrayList<>();
+			for(String type: types) {
+				tempTypes.add("'"+type+"'");
+			}
+			String queryType = String.join(",", tempTypes);
+
+			query.append(" and rt.code IN ("+queryType+")");
+		}
+
 		return null;
 	}
 
