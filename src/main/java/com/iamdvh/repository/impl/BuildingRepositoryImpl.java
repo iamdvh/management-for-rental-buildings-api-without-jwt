@@ -180,7 +180,7 @@ public class BuildingRepositoryImpl implements BuildingRepository {
 		if(staffId != null) {
 			query.append("inner join assignmentbuilding ab on");
 		}
-		return null;
+		return query;
 	}
 
 
@@ -207,7 +207,7 @@ public class BuildingRepositoryImpl implements BuildingRepository {
 			query.append(" and rt.code IN ("+queryType+")");
 		}
 
-		return null;
+		return query;
 	}
 
 }
