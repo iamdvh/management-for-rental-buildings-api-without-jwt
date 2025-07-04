@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.iamdvh.repository.DistrictRepository;
+import com.iamdvh.repository.entity.DistrictEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +23,8 @@ public class BuildingServiceImpl implements BuildingService{
 	private BuildingRentTypeRepository buildingRentTypeRepository;
 	@Autowired
 	private RentAreaRepository areaRepository;
+	@Autowired
+	private DistrictRepository districtRepository;
 
 	@Override
 	public List<BuildingSearchResponse> findAll(Map<String, Object> request, List<String> types) {
@@ -29,16 +33,17 @@ public class BuildingServiceImpl implements BuildingService{
 		for (BuildingEntity item : buildingEntities) {
 			BuildingSearchResponse buildingSearchResponse = new BuildingSearchResponse();
 			buildingSearchResponse.setName(item.getName());
-			buildingSearchResponse.setAddress(item.getStreet() + ", " +item.getWard());
-			buildingSearchResponse.setFloorArea(item.getFloorArea());
-			buildingSearchResponse.setNumberOfBasement(item.getNumberOfBasement());
-			buildingSearchResponse.setRentPrice(item.getRentPrice());
-			buildingSearchResponse.setServiceFee(item.getServiceFee());
-			buildingSearchResponse.setBrokerageFee(item.getBrokerageFee());
-			buildingSearchResponse.setTypes(findTypes(item.getId()));
-			buildingSearchResponse.setManagerName(item.getManagerName());
-			buildingSearchResponse.setManagerPhone(item.getManagerPhone());
-			buildingSearchResponse.setRentArea(findRentAreas(item.getId()));
+			DistrictEntity districtEntity = districtRepository.findById(item.getDistricId());
+			buildingSearchResponse.setAddress(item.getStreet() + " - " +item.getWard() + " - " +districtEntity.getName());
+//			buildingSearchResponse.setFloorArea(item.getFloorArea());
+//			buildingSearchResponse.setNumberOfBasement(item.getNumberOfBasement());
+//			buildingSearchResponse.setRentPrice(item.getRentPrice());
+//			buildingSearchResponse.setServiceFee(item.getServiceFee());
+//			buildingSearchResponse.setBrokerageFee(item.getBrokerageFee());
+//			buildingSearchResponse.setTypes(findTypes(item.getId()));
+//			buildingSearchResponse.setManagerName(item.getManagerName());
+//			buildingSearchResponse.setManagerPhone(item.getManagerPhone());
+//			buildingSearchResponse.setRentArea(findRentAreas(item.getId()));
 			result.add(buildingSearchResponse);
 		}
 		return result;

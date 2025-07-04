@@ -1,13 +1,11 @@
 package com.iamdvh.repository.impl;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.iamdvh.repository.entity.DistrictEntity;
 import org.springframework.stereotype.Repository;
 
 import com.iamdvh.contant.SystemContant;
@@ -20,6 +18,32 @@ import com.iamdvh.utils.ConnectionUtil;
 public class BuildingRepositoryImpl implements BuildingRepository {
 	@Override
 	public List<BuildingEntity> findAll(Map<String, Object> params, List<String> types) {
+		StringBuilder sql =  new StringBuilder("SELECT * FROM building ");
+		sql.append(SystemContant.ONE_EQUAL_ONE);
+		String name = (String) params.get("name");
+		int floorArea = Integer.parseInt((params.get("floorarea").toString()));
+		List<BuildingEntity> results = new ArrayList<>();
+		try (Connection conn = ConnectionUtil.getConnection();
+			 Statement stmt = conn.createStatement();
+			 ResultSet rs = stmt.executeQuery(sql.toString())) {
+			while (rs.next()) {
+				BuildingEntity buildingEntity = new BuildingEntity();
+				buildingEntity.setName(rs.getString("name"));
+				results.add(buildingEntity);
+			}
+			return results;
+		} catch (SQLException e) {
+			e.printStackTrace();;
+		}
+
+
+
+
+
+
+
+
+
 		StringBuilder whereQuery = new StringBuilder();
 		StringBuilder joinQuery = new StringBuilder();
 		StringBuilder finalQuery = new StringBuilder(
