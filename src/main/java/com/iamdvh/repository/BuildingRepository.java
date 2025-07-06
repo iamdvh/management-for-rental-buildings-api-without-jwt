@@ -6,5 +6,7 @@ import java.util.Map;
 import com.iamdvh.repository.entity.BuildingEntity;
 
 public interface BuildingRepository {
-	public List<BuildingEntity> findAll(Map<String, Object> params, List<String> types);
+	List<BuildingEntity> findAll(Map<String, Object> params, List<String> types);
+	BuildingEntity findById(Long buildingId);
+	
 }

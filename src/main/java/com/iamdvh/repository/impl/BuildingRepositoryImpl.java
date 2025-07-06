@@ -21,7 +21,8 @@ public class BuildingRepositoryImpl implements BuildingRepository {
 		StringBuilder sql =  new StringBuilder("SELECT * FROM building ");
 		sql.append(SystemContant.ONE_EQUAL_ONE);
 		String name = (String) params.get("name");
-		int floorArea = Integer.parseInt((params.get("floorarea").toString()));
+		int floorArea = params.containsKey("floorarea") ? params.get("floorarea").equals("") ? null : Integer.valueOf(params.get("floorarea").toString()):null;
+		Long staffId = params.containsKey("staffid") ? params.get("staffid").equals("") ? null : Long.valueOf(params.get("staffid").toString()):null;
 		List<BuildingEntity> results = new ArrayList<>();
 		try (Connection conn = ConnectionUtil.getConnection();
 			 Statement stmt = conn.createStatement();
@@ -35,15 +36,6 @@ public class BuildingRepositoryImpl implements BuildingRepository {
 		} catch (SQLException e) {
 			e.printStackTrace();;
 		}
-
-
-
-
-
-
-
-
-
 		StringBuilder whereQuery = new StringBuilder();
 		StringBuilder joinQuery = new StringBuilder();
 		StringBuilder finalQuery = new StringBuilder(
@@ -175,6 +167,12 @@ public class BuildingRepositoryImpl implements BuildingRepository {
 			joinQuery.append(" join assignmentbuilding ab on b.id = ab.buildingid join user u on ab.staffid = u.id");
 			whereQuery.append(" and ab.staffid = "+staffId+"");
 		}
+	}
+
+	@Override
+	public BuildingEntity findById(Long buildingId) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 
