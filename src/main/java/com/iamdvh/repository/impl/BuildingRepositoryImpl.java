@@ -25,6 +25,7 @@ public class BuildingRepositoryImpl implements BuildingRepository {
 		sql.append(SystemContant.ONE_EQUAL_ONE);
 		sql = buildingCommon(params, types, sql);
 		sql = buidingSpeciel(params, types, sql);
+		sql.append(" GROUP BY b.id");
 		return null;
 	}
 
@@ -68,15 +69,45 @@ public class BuildingRepositoryImpl implements BuildingRepository {
 				}
 			}
 		}
-		
-		
 		return sql;
 	}
 	
 	
 	private StringBuilder buidingSpeciel(Map<String, Object> params, List<String> types, StringBuilder sql) {
-		// TODO Auto-generated method stub
-		return null;
+		Integer costRentFrom = MapUtil.getObject(params, "costrentfrom", Integer.class);
+		Integer costRentTo = MapUtil.getObject(params, "costrentto", Integer.class);
+		Integer rentAreaFrom = MapUtil.getObject(params, "rentareafrom", Integer.class);
+		Integer rentAreaTo = MapUtil.getObject(params, "rentareato", Integer.class);
+
+		if (costRentFrom != null) {
+		    sql.append(" and b.costrent >= " + costRentFrom + " ");
+		}
+
+		if (costRentTo != null) {
+		    sql.append(" and b.costrent <= " + costRentTo + " ");
+		}
+
+		if (rentAreaFrom != null || rentAreaTo != null) {
+		    sql.append(" and EXISTS (SELECT value FROM rentarea as ra WHERE b.id = ra.buildingid");
+		    if (rentAreaFrom != null) {
+		        sql.append(" and ra.value >= " + rentAreaFrom + " ");
+		    }
+		    if (rentAreaTo != null) {
+		        sql.append(" and ra.value <= " + rentAreaTo + " ");
+		    }
+		    sql.append(") ");
+		}
+		
+		if(types != null && types.size() > 0) {
+			sql.append(" and (");
+			List<String> tempType = new ArrayList<>();
+			for(String type: types) {
+				tempType.add(" rt.code = '"+type+"'");
+			}
+			String sqlJoin = String.join(" or ", tempType);
+			sql.append(sqlJoin + ")");
+		}
+		return sql;
 	}
 
 
