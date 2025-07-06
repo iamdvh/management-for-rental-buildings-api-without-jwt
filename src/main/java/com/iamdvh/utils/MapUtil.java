@@ -1,6 +1,21 @@
 package com.iamdvh.utils;
 
+import java.util.Map;
+
 public class MapUtil {
-//	public static getObject ()
+	public static<T> T getObject (Map<String, Object> params, String key, Class<T> tClass) {
+		Object object = params.getOrDefault(key, tClass);
+		if(object != null) {
+			if(tClass.getTypeName().equals("java.lang.Long")) {
+				object = object !=  "" ? Long.valueOf(object.toString()) :null;
+			} else if (tClass.getTypeName().equals("java.lang.Integer")){
+				object = object !=  "" ? Integer.valueOf(object.toString()) :null;
+			} else {
+				 object = object.toString();
+			}
+			return tClass.cast(object);
+		}
+		return null;
+	}
 
 }
