@@ -4,6 +4,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import com.iamdvh.repository.entity.DistrictEntity;
 import org.springframework.stereotype.Repository;
@@ -97,15 +98,26 @@ public class BuildingRepositoryImpl implements BuildingRepository {
 		    }
 		    sql.append(") ");
 		}
-		
-		if(types != null && types.size() > 0) {
+//		javab7
+//		if(types != null && types.size() > 0) {
+//			sql.append(" and (");
+//			List<String> tempType = new ArrayList<>();
+//			for(String type: types) {
+//				tempType.add(" rt.code = '"+type+"'");
+//			}
+//			String sqlJoin = String.join(" or ", tempType);
+//			sql.append(sqlJoin + ")");
+//		}
+
+//		java 8
+		if(types.size()>0 && types != null) {
 			sql.append(" and (");
 			List<String> tempType = new ArrayList<>();
-			for(String type: types) {
-				tempType.add(" rt.code = '"+type+"'");
-			}
-			String sqlJoin = String.join(" or ", tempType);
-			sql.append(sqlJoin + ")");
+			String sqlJoining =  types.stream().map(type -> {
+				return " rt.code = '"+type+"'";
+			}).collect(Collectors.joining(" or "));
+			sql.append(sqlJoining);
+			sql.append(" ) ");
 		}
 		return sql;
 	}
