@@ -1,4 +1,4 @@
-  package com.iamdvh.repository;
+  package com.iamdvh.repository.custom;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.iamdvh.repository.impl;
+package com.iamdvh.repository.custom.impl;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -12,8 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Repository;
 
-import com.iamdvh.repository.BuildingJdbc;
-import com.iamdvh.repository.BuildingRepository;
+import com.iamdvh.repository.custom.BuildingJdbc;
 import com.iamdvh.repository.entity.BuildingEntity;
 
 @Repository
